@@ -1,5 +1,3 @@
-package Core_Principles;
-
 class BankAccount {
         // Private attributes
         private String accountHolderName;

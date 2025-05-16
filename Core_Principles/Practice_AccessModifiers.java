@@ -1,6 +1,3 @@
-package Core_Principles;
-//Your code goes here
-
 class Employee{
     public String name;
     protected int employeeId;

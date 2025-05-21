@@ -67,6 +67,10 @@ public class generics {
             System.out.print(val +" ");
         }
     }
+    //what is upper bound wildcard?
+    // it is used to restrict the type of elements that can be read from a collection
+    // it is implemented using ? extends T
+    // it allows you to read elements of type T or any subclass of T from the collection
     public static <T> void printArrayUsingWildcard(List<? extends T> list){
         for(T val : list){
             System.out.print(val + " "); //read only allowed
@@ -88,18 +92,20 @@ public class generics {
      * 
      * @param ls a List of type Integer or any of its superclasses
      */
-    public static void writeArray(List<? super Integer> ls){ //? can be Integer or any super class of Integer
-        ls.add(10); //allowed
-        ls.add(20); //allowed
-        // Integer i = ls.get(0); //not allowed
-        Integer i = (Integer)ls.get(0); //allowed
-        //why typecasting is needed?
-        //because we don't know the type of the list, it can be any super class of Integer
-        //so we need to typecast it to Integer
-        // so is reading allowed?
-        //yes, but we need to typecast it to Integer
-        //if we dont typecast it, it will give compile time error.
-        //this is example of upper bound wildcard
+    /**
+     * Demonstrates lower bound wildcard in Java Generics.
+     * This method accepts a List that can hold Integer or any of its superclasses.
+     * Lower bound wildcard (? super Type) allows both read and write operations:
+     * - Writing: Can add Integer objects to the list
+     * - Reading: Requires explicit casting as the exact type is unknown
+     *
+     * @param ls a List of type Integer or any of its superclasses
+     */
+    public static void writeArray(List<? super Integer> ls) {
+        ls.add(10);
+        ls.add(20);
+        Integer i = (Integer)ls.get(0);
+        System.out.println("Read value: " + i);
     }
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>();

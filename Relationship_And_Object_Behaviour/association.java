@@ -1,64 +1,85 @@
-// Example of Association in Java
-// Association represents a relationship between two separate classes where one class uses another class
-
-// Class representing a Student
-class Student {
-    private String name;
-    private int studentId;
+// Association Example demonstrating one-to-one, one-to-many, and many-to-many relationships
+import java.util.*;
+// One-to-One: Student has one Address
+class Address {
+    private String street;
+    private String city;
     
-    public Student(String name, int studentId) {
-        this.name = name;
-        this.studentId = studentId;
-    }
-    
-    public String getName() {
-        return name;
+    public Address(String street, String city) {
+        this.street = street;
+        this.city = city;
     }
 }
 
-// Class representing a Course
+class Student {
+    private String name;
+    private Address address; // One-to-One Association
+    
+    public Student(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+}
+
+// One-to-Many: University has many Departments
+class Department {
+    private String name;
+    
+    public Department(String name) {
+        this.name = name;
+    }
+}
+
+class University {
+    private String name;
+    private List<Department> departments; // One-to-Many Association
+    
+    public University(String name) {
+        this.name = name;
+        this.departments = new ArrayList<>();
+    }
+    
+    public void addDepartment(Department dept) {
+        departments.add(dept);
+    }
+}
+
+// Many-to-Many: Students can enroll in multiple Courses and Courses can have multiple Students
 class Course {
     private String courseName;
-    private Student[] students; // Association: Course has Students
+    private List<Student> enrolledStudents; // Many-to-Many Association
     
     public Course(String courseName) {
         this.courseName = courseName;
-        this.students = new Student[10]; // Can have up to 10 students
+        this.enrolledStudents = new ArrayList<>();
     }
     
-    // Method to add a student to the course
-    public void addStudent(Student student, int position) {
-        if (position >= 0 && position < students.length) {
-            students[position] = student;
-        }
-    }
-    
-    // Method to display enrolled students
-    public void displayEnrolledStudents() {
-        System.out.println("Students enrolled in " + courseName + ":");
-        for (Student student : students) {
-            if (student != null) {
-                System.out.println(student.getName());
-            }
-        }
+    public void enrollStudent(Student student) {
+        enrolledStudents.add(student);
     }
 }
 
-// Main class to demonstrate association
+// Main class to demonstrate associations
 public class association {
     public static void main(String[] args) {
-        // Creating students
-        Student student1 = new Student("John", 101);
-        Student student2 = new Student("Alice", 102);
+        // One-to-One example
+        Address addr = new Address("123 Main St", "Boston");
+        Student student = new Student("John Doe", addr);
         
-        // Creating a course
-        Course javaCourse = new Course("Java Programming");
+        // One-to-Many example
+        University university = new University("MIT");
+        university.addDepartment(new Department("Computer Science"));
+        university.addDepartment(new Department("Physics"));
         
-        // Adding students to the course (demonstrating association)
-        javaCourse.addStudent(student1, 0);
-        javaCourse.addStudent(student2, 1);
+        // Many-to-Many example
+        Course java = new Course("Java Programming");
+        Course python = new Course("Python Programming");
         
-        // Displaying enrolled students
-        javaCourse.displayEnrolledStudents();
+        Student student1 = new Student("Alice", new Address("456 Oak St", "New York"));
+        Student student2 = new Student("Bob", new Address("789 Pine St", "Chicago"));
+        
+        java.enrollStudent(student1);
+        java.enrollStudent(student2);
+        python.enrollStudent(student1);
     }
 }
